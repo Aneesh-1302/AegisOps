@@ -26,15 +26,28 @@ def compute_drift_event(batch_num):
     avg_confidence = batch_spans["confidence"].mean()
     severity = batch_spans["severity"].iloc[0]
 
+    # Match P1's exact contract
     drift_event = {
-        "model_id": "fraud-classifier-v2",
-        "metric": "latency_p99",
-        "severity": severity,
-        "batch_window": f"batch_{batch_num}",
-        "baseline_value": 40.0,
-        "observed_value": round(avg_latency, 2),
-        "confidence_observed": round(avg_confidence, 3),
-        "confidence_baseline": 0.92
+        "drift_event": {
+            "model_id": "projects/unified-ai-ops/locations/us-central1/models/fraud-classifier-v2",
+            "metric": "latency_p99",
+            "severity": severity,
+            "batch_window": f"batch_{batch_num}",
+            "baseline_value": 40.0,
+            "observed_value": round(avg_latency, 2),
+            "batch_id": f"batch-{batch_num}",
+            "endpoint_id": "fraud-classifier-serving",
+            "previous_good_version": "fraud-classifier-serving-v1-00001",
+        },
+        "context": {
+            "performance": {
+                "confidence_observed": round(avg_confidence, 3),
+                "confidence_baseline": 0.92,
+                "latency_p50_ms": round(avg_latency * 0.8, 2),
+                "latency_p99_ms": round(avg_latency, 2),
+            },
+            "status": f"Drift detected at batch {batch_num} — severity: {severity}"
+        }
     }
 
     return drift_event
