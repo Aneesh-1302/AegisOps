@@ -1,0 +1,26 @@
+# === Unified AI Ops Action Agent — Dependencies ===
+
+# Core Gemini SDK (includes MCP client support)
+google-genai>=1.14.0
+
+# Vertex AI (pipeline triggering, model registry, endpoints)
+google-cloud-aiplatform>=1.74.0
+
+# Strict typing for tool schemas (function calling)
+pydantic>=2.11.0
+
+# HTTP utilities (webhook calls, external API integration)
+requests>=2.32.0
+
+# Environment variable management
+python-dotenv>=1.1.0
+
+# MCP client (stdio transport for spawning Arize server)
+mcp>=1.27.0
+
+# Google Agent Development Kit (agent orchestration, tool dispatch, web UI)
+google-adk>=2.2.0
+
+# GCP Tools — dual mode (real API if credentials exist, mock fallback)
+google-cloud-storage>=2.18.0
+google-cloud-run>=0.16.0

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "arize": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@arizeai/phoenix-mcp@latest",
+        "--baseUrl", "${ARIZE_BASE_URL}",
+        "--apiKey", "${ARIZE_API_KEY}"
+      ]
+    }
+  }
+}
