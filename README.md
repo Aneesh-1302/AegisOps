@@ -82,7 +82,57 @@ Google ADK provides a beautiful chat interface out of the box:
 ```bash
 adk web .
 ```
+---
 
+## Telemetry Pipeline Setup (Arize Phoenix)
+
+Person 2's components — run these alongside the agent for live drift detection.
+
+### Prerequisites
+- Python 3.11+
+- Node.js (for Phoenix MCP server)
+
+### 1. Install Telemetry Dependencies
+```bash
+pip install arize-phoenix arize-phoenix-client opentelemetry-sdk opentelemetry-exporter-otlp
+```
+
+### 2. Start Arize Phoenix
+```bash
+python -m phoenix.server.main serve
+```
+Phoenix UI available at `http://localhost:6006`
+
+### 3. Start Phoenix MCP Server
+Open a new terminal:
+```bash
+npx -y @arizeai/phoenix-mcp@latest --baseUrl http://localhost:6006
+```
+
+### 4. Generate Synthetic Traces
+```bash
+python simulate_drift_scenarios.py
+```
+This logs 100 spans across 5 batches with severity levels: `none → low → moderate → critical`
+
+### 5. Start the Drift Watcher
+```bash
+python pipeline.py
+```
+Polls Phoenix every 10 seconds. Writes `latest_drift_event.json` when drift is detected — P1's agent picks this up automatically.
+
+### 6. Inject Live Drift (Demo)
+In a separate terminal, re-run the simulation to trigger the autonomous loop:
+```bash
+python simulate_drift_scenarios.py
+```
+
+### Full Autonomous Loop
+```
+simulate_drift_scenarios.py → Phoenix captures traces
+→ pipeline.py detects drift → writes latest_drift_event.json
+→ P1's agent reads file → Gemini reasons → GCP tool fires
+```
 ---
 
 ##  Live GCP Mode (Optional)
@@ -100,3 +150,9 @@ To execute real remediation actions:
    VERTEX_PIPELINE_TEMPLATE=gs://your-bucket/template.json
    ```
 3. Run the agent. The dual-mode tools will automatically detect the credentials and use the real APIs.
+
+---
+
+## License
+
+MIT License — see [LICENSE](LICENSE) for details.
