@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 # Load .env before any ADK/GenAI imports so GOOGLE_GENAI_API_KEY is available
 load_dotenv()
 
-from .agent.brain import root_agent
+from src.agent.brain import root_agent
 
 # ADK CLI looks for `root_agent` at module level
 __all__ = ["root_agent"]

@@ -40,8 +40,10 @@ def send_span(batch_num, scenario):
             feature_val = random.gauss(5, 2)
             severity = "critical"
 
+        # Use a timestamp suffix so batches are unique across multiple runs!
+        unique_batch_id = int(time.time() * 10) + batch_num
         span.set_attribute("model.id", "fraud-classifier-v2")
-        span.set_attribute("model.batch", batch_num)
+        span.set_attribute("model.batch", unique_batch_id)
         span.set_attribute("input.feature_val", feature_val)
         span.set_attribute("output.confidence", confidence)
         span.set_attribute("latency_ms", latency_ms)

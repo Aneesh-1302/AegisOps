@@ -3,19 +3,19 @@
     "model_id": "projects/unified-ai-ops/locations/us-central1/models/fraud-classifier-v2",
     "metric": "latency_p99",
     "severity": "critical",
-    "batch_window": "batch_5",
+    "batch_window": "batch_17811050813",
     "baseline_value": 40.0,
-    "observed_value": 826.14,
-    "batch_id": "batch-5",
+    "observed_value": 964.25,
+    "batch_id": "batch-17811050813",
     "endpoint_id": "fraud-classifier-serving",
     "previous_good_version": "fraud-classifier-serving-v1-00001"
   },
   "context": {
     "performance": {
-      "confidence_observed": 0.355,
+      "confidence_observed": 0.298,
       "confidence_baseline": 0.92,
-      "latency_p50_ms": 660.91,
-      "latency_p99_ms": 826.14
+      "latency_p50_ms": 771.4,
+      "latency_p99_ms": 964.25
     },
     "status": "Drift detected \u2014 severity: critical"
   }
